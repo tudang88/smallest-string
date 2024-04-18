@@ -66,6 +66,42 @@ void Solution::findPath(TreeNode *currentNode, vector<int>& currentMinPath, vect
     currentMinPath.pop_back();
 
 }
+
+/**
+ * second solution after refer to other optimal solution
+*/
+void Solution::findPath_2(TreeNode *currentNode, string &currentString, string &smallestStr)
+{
+    // stop if reach null node
+    if (!currentNode) return;
+    // pickup value and convert to coresponding character by adding 'a'
+    currentString.push_back('a' + currentNode->val);
+    // traverser on left
+    if (currentNode->left) {
+        findPath_2(currentNode->left, currentString, smallestStr);
+    }
+    // traverser on right
+    if (currentNode->right) {
+        findPath_2(currentNode->right, currentString, smallestStr);
+    }
+    // evaluate current string on a leaf
+    if (!currentNode->left && !currentNode->right) {
+        cout<< "----------FOUND LEAF---------"<<endl;
+        // reverse string to correct order from leaf -> root
+        string newStr(currentString.rbegin(), currentString.rend());
+        cout<<"New String: "<< newStr << endl;
+        // first time
+        if (smallestStr.empty()) smallestStr = newStr;
+        else {
+            // second time
+            if (smallestStr > newStr) smallestStr = newStr;
+        }
+    }
+
+    // pop current node before go on other edge
+    currentString.pop_back();
+}
+
 /**
  * You are given the root of a binary tree where 
  * each node has a value in the range [0, 25] representing the letters 'a' to 'z'.
@@ -77,8 +113,13 @@ void Solution::findPath(TreeNode *currentNode, vector<int>& currentMinPath, vect
 */
 string Solution::smallestFromLeaf(TreeNode *root)
 {
-   vector<int> minStrPath;
-   vector<int> currentMinStringPath;
-   findPath(root,currentMinStringPath, minStrPath);
-   return fromVectorReverse(minStrPath);
+//    vector<int> minStrPath;
+//    vector<int> currentMinStringPath;
+//    findPath(root,currentMinStringPath, minStrPath);
+//    return fromVectorReverse(minStrPath);
+
+    string ans;
+    string currentStr;
+    findPath_2(root, currentStr, ans);
+    return ans;
 }

@@ -20,6 +20,7 @@ public:
 class Solution {
 public:
     void findPath(TreeNode* currentNode, vector<int>& currentMinPath, vector<int>& minStrPath);
+    void findPath_2(TreeNode* currentNode, string& currentSmallest, string& smallestStr);
     string fromVectorReverse(const vector<int>& path);
     bool lexicoSmallestString(vector<int>& first, vector<int>& second);
     string smallestFromLeaf(TreeNode* root);
